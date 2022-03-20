@@ -11,6 +11,7 @@ import { ReactComponent as Gocardless } from 'assets/gocardless.svg';
 import { ReactComponent as GooglePay } from 'assets/google-pay.svg';
 import { ReactComponent as Jcb } from 'assets/jcb.svg';
 import { ReactComponent as Klarna } from 'assets/klarna.svg';
+import { ReactComponent as Loader } from 'assets/loader.svg';
 import { ReactComponent as Mastercard } from 'assets/mastercard.svg';
 import { ReactComponent as PaymentCard } from 'assets/payment-card.svg';
 import { ReactComponent as Paypal } from 'assets/paypal.svg';
@@ -81,6 +82,10 @@ const Icon: React.FC<IconProps> = ({ color, icon, size, style }) => {
 
   if (icon === 'klarna') {
     return <Klarna width={size} height={size} color={color} style={style} />;
+  }
+
+  if (icon === 'loader') {
+    return <Loader width={size} height={size} color={color} style={style} />;
   }
 
   if (icon === 'mastercard') {

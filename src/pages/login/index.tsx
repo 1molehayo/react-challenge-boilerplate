@@ -14,10 +14,6 @@ import logo from 'assets/logo.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from 'contexts/Auth.context';
 
-// interface stateType {
-//   // path: string;
-// }
-
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

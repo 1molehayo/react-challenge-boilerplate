@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { fontSizes, fontWeights } from 'styles/global/Constants';
 
 export const StyledPayments = styled.div`
+  position: relative;
+
   tbody tr {
     td:first-child {
       text-align: end;

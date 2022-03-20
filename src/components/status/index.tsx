@@ -14,14 +14,14 @@ const Status: React.FC<IStatus> = ({ type }) => {
       case 'CANCELLED':
         return '#ae9e13';
 
-      case 'SETTLED':
-        return '#288c70';
+      case 'DECLINED':
+        return '#b60414';
 
       case 'FAILED':
         return '#b0303b';
 
-      case 'DECLINED':
-        return '#b60414';
+      case 'SETTLED':
+        return '#288c70';
 
       default:
         return '#6e6e6e';

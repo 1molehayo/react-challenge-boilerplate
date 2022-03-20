@@ -1,30 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import Layout from 'layouts';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { Container } from 'styles/Container.styled';
+import { colors } from 'styles/global/Constants';
 import StyledHeading from 'styles/typography/Heading.styled';
 import Table from 'components/table';
 import Status from 'components/status';
 import { Amount, Currency, Processor, StyledPayments } from './Payments.styled';
 import axios from 'services/axios';
 import Icon from 'components/icon';
-import { colors } from 'styles/global/Constants';
 import PaymentModel from 'models/payment';
-import { formatPrice } from 'utility';
-import { Link } from 'react-router-dom';
+import ErrorModel from 'models/error';
 import SearchBar from 'components/search-bar';
+import Loader from 'components/loader';
+import { formatPrice } from 'utility';
+import { notify } from 'utility/toaster';
 
 function Payments() {
   const [paymentData, setPaymentData] = useState<PaymentModel[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchPayments = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get('/payments');
-        console.log(data);
         setPaymentData(data.data);
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        let errorMessage = 'Something went wrong';
+
+        if (err instanceof ErrorModel) {
+          errorMessage = err.response.error.description;
+        }
+
+        notify({
+          type: 'error',
+          message: errorMessage
+        });
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -45,43 +60,47 @@ function Payments() {
 
   return (
     <StyledPayments>
-      <Container>
-        <StyledHeading>Transactions</StyledHeading>
+      {loading && <Loader />}
 
-        <SearchBar />
+      {!loading && (
+        <Container>
+          <StyledHeading>Transactions</StyledHeading>
 
-        <Table>
-          {paymentData.map((item, itemIndex) => (
-            <tr key={itemIndex}>
-              <td>
-                <Amount>{formatPrice(item.amount)}</Amount> &nbsp;
-                <Currency>{item.currencyCode}</Currency>
-              </td>
-              <td>
-                <Status type={item.status} />
-              </td>
-              <td>
-                <Processor>
-                  <Icon icon={item.processor.toLowerCase()} />
-                </Processor>
-                {item.processor !== 'PAYPAL' && (
+          <SearchBar />
+
+          <Table>
+            {paymentData.map((item, itemIndex) => (
+              <tr key={itemIndex}>
+                <td>
+                  <Amount>{formatPrice(item.amount)}</Amount> &nbsp;
+                  <Currency>{item.currencyCode}</Currency>
+                </td>
+                <td>
+                  <Status type={item.status} />
+                </td>
+                <td>
                   <Processor>
-                    <Icon icon={getPaymentMethod(item)} />
+                    <Icon icon={item.processor.toLowerCase()} />
                   </Processor>
-                )}
-              </td>
+                  {item.processor !== 'PAYPAL' && (
+                    <Processor>
+                      <Icon icon={getPaymentMethod(item)} />
+                    </Processor>
+                  )}
+                </td>
 
-              <td>{item.orderId}</td>
-              <td>{moment(item.date).format('D MMM YYYY, HH:mm')}</td>
-              <td>
-                <Link to={`/payment-details/${item.orderId}`}>
-                  <Icon icon="angle-right" size="20px" color={colors.blue} />
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </Table>
-      </Container>
+                <td>{item.orderId}</td>
+                <td>{moment(item.date).format('D MMM YYYY, HH:mm')}</td>
+                <td>
+                  <Link to={`/payment-details/${item.id}`}>
+                    <Icon icon="angle-right" size="20px" color={colors.blue} />
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </Table>
+        </Container>
+      )}
     </StyledPayments>
   );
 }
