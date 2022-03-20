@@ -13,9 +13,11 @@ export const breakpoints = {
 
 export const colors = {
   black: '#000000',
+  blue: '#4858f3',
   dark: '#333333',
   grey: '#888888',
   light_grey: '#f4f4f4',
+  primary: '#ff8c78',
   red: '#f00',
   white: '#ffffff'
 };
@@ -34,6 +36,6 @@ export const fontSizes = {
 export const fontWeights = {
   light: 300,
   regular: 400,
-  medium: 500,
+  medium: 600,
   bold: 700
 };

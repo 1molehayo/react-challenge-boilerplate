@@ -11,6 +11,7 @@ const StyledLink = styled.a`
   letter-spacing: 0.2px;
   line-height: 1.6;
   cursor: pointer;
+  text-decoration: none;
 `;
 
 export default StyledLink;

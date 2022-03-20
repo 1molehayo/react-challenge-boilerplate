@@ -3,9 +3,10 @@ import ResetsStyles from './Resets';
 import { colors, fontSizes } from './Constants';
 
 export const GlobalStyles = createGlobalStyle`
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
     ${ResetsStyles}
 
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
     html {
         box-sizing: border-box;

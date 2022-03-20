@@ -4,7 +4,7 @@ import Footer from './footer';
 import Header from './header';
 
 interface IProps {
-  children?: React.ReactNode;
+  children?: React.ReactChild | React.ReactChildren;
 }
 
 export default function Layout(WrappedComponent: React.FC) {

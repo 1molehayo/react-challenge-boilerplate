@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react';
+import Layout from 'layouts';
+import { Container } from 'styles/Container.styled';
 
 function PaymentDetails() {
-    return (
-        <div>
-            <h1>Payment Details</h1>
-        </div>
-    );
+  return (
+    <Container>
+      <h1>Payment Details</h1>
+    </Container>
+  );
 }
 
-export default PaymentDetails;
+export default Layout(PaymentDetails);

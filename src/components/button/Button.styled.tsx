@@ -8,9 +8,9 @@ const StyledButton = styled.button`
   height: 48px;
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(255, 140, 120);
+  border-color: ${({ theme }) => theme.colors.primary};
   border-radius: 100px;
-  background-color: rgb(255, 140, 120);
+  background-color: ${({ theme }) => theme.colors.primary};
   color: rgb(0, 0, 0);
   font-family: Aeonik, sans-serif;
   font-size: 18px;
@@ -28,6 +28,10 @@ const StyledButton = styled.button`
 
   &:hover {
     box-shadow: rgb(255 153 133 / 35%) 0px 0px 0px 6px;
+  }
+
+  &:disabled {
+    opacity: 0.8;
   }
 
   span {
