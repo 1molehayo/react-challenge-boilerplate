@@ -7,7 +7,7 @@ interface IAuthProps {
   loading: boolean;
   login: any;
   logout: any;
-  updateLoginStatus: any;
+  loginUserIn: any;
   user: any;
 }
 
@@ -17,7 +17,7 @@ const ContextDefaultValues: IAuthProps = {
   loading: true,
   login: () => null,
   logout: () => null,
-  updateLoginStatus: () => null,
+  loginUserIn: () => null,
   user: null
 };
 
@@ -68,7 +68,7 @@ function useAuth() {
     });
   };
 
-  const updateLoginStatus = () => {
+  const loginUserIn = () => {
     dispatch({ type: 'LOGIN_COMPLETED' });
   };
 
@@ -86,7 +86,6 @@ function useAuth() {
           }
         })
         .then((response) => {
-          console.log('login data: ', response.data);
           localStorage.setItem('token', response.data.accessToken);
           dispatch({ type: 'LOGIN_COMPLETED' });
           resolve();
@@ -110,7 +109,7 @@ function useAuth() {
     fetchUser,
     login,
     logout,
-    updateLoginStatus
+    loginUserIn
   };
 }
 

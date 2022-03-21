@@ -7,10 +7,10 @@ interface IProps {
   children: React.ReactNode;
 }
 
-function RequireAuth({ children }: IProps) {
+function RedirectAuth({ children }: IProps) {
   const [loading, setLoading] = useState(true);
   const { authed, loginUserIn } = useAuth();
-  const { pathname } = useLocation();
+  const { state, pathname } = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -31,11 +31,14 @@ function RequireAuth({ children }: IProps) {
     return <Loader />;
   }
 
-  if (authed && !loading) {
+  if (!authed && !loading) {
     return <>{children}</>;
   }
 
-  return <Navigate to="/login" replace state={{ path: pathname }} />;
+  return (
+    // @ts-ignore
+    <Navigate to={state?.path || '/'} replace state={{ path: pathname }} />
+  );
 }
 
-export default RequireAuth;
+export default RedirectAuth;

@@ -8,7 +8,6 @@ interface IProps {
 }
 
 export default function Layout(WrappedComponent: React.FC) {
-  // eslint-disable-next-line react/display-name
   return (props: JSX.IntrinsicAttributes & IProps) => {
     return (
       <>

@@ -1,17 +1,15 @@
 export interface ErrorProps {
-  error: {
-    errorId: string;
-    description: string;
-    diagnosticId: string;
-    validationErrors: string;
-  };
+  errorId: string;
+  description: string;
+  diagnosticId: string;
+  validationErrors: string;
 }
 
 class ErrorModel {
-  response: ErrorProps;
+  error: ErrorProps;
 
-  constructor(response: ErrorProps) {
-    this.response = response ;
+  constructor(error: ErrorProps) {
+    this.error = {...error};
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Container } from 'styles/Container.styled';
 import {
   LoginForm,
@@ -11,30 +11,32 @@ import InputField from 'components/input-field';
 import Button from 'components/button';
 import Footer from 'layouts/footer';
 import logo from 'assets/logo.png';
-import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from 'contexts/Auth.context';
+import { notify } from 'utility/toaster';
+import { handleError } from 'services/axios';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
   const { login } = useAuth();
-  const { state } = useLocation();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
 
     setLoading(true);
 
     try {
       await login(email, password);
-      setLoading(false);
-      // @ts-ignore
-      navigate(state?.path || '/');
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      const errorMessage = handleError(err);
+
+      notify({
+        type: 'error',
+        message: errorMessage
+      });
+
       setLoading(false);
     }
   };

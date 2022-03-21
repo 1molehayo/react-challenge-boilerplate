@@ -1,4 +1,19 @@
 import _axios from 'axios';
+import ErrorModel from 'models/error';
+import { notify } from 'utility/toaster';
+
+export const handleError = (error: any) => {
+  let errorMessage = 'Something went wrong';
+
+  if (error.response && error.response.data && error.response.data.error) {
+    const errorResponse = new ErrorModel(error.response.data.error);
+    const { description } = errorResponse.error;
+
+    errorMessage = description || 'Something went wrong';
+  }
+
+  return errorMessage;
+};
 
 const axios = _axios.create({
   baseURL: 'https://dashboard.api.staging.core.primer.io',
@@ -21,15 +36,20 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (
-      error.response.data &&
-      error.response.data.error &&
-      error.response.data.error.errorId === 'InvalidAuthCredentials'
-    ) {
+    const errorMessage = handleError(error?.response?.data?.error);
+
+    if (errorMessage.includes('Invalid authentication credentials')) {
       localStorage.removeItem('token');
       window.location.href = '/login';
-      return Promise.reject(error.response.data.error.description);
+
+      // notify via toastify
+      notify({
+        type: 'error',
+        message: errorMessage
+      });
     }
+
+    return Promise.reject(error);
   }
 );
 

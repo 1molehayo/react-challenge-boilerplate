@@ -10,6 +10,7 @@ import NotFound from 'pages/not-found';
 import Payments from 'pages/payments';
 import PaymentDetails from 'pages/payment-details';
 import RequireAuth from 'RequireAuth';
+import RedirectAuth from 'RedirectAuth';
 
 const theme = {
   colors
@@ -40,7 +41,14 @@ function App() {
                   </RequireAuth>
                 }
               />
-              <Route path="/login" element={<Login />} />
+              <Route
+                path="/login"
+                element={
+                  <RedirectAuth>
+                    <Login />
+                  </RedirectAuth>
+                }
+              />
               <Route path="/404" element={<NotFound />} />
               <Route path="*" element={<Navigate to="/404" />} />
             </Routes>

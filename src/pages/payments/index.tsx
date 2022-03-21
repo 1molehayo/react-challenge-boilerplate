@@ -8,10 +8,9 @@ import StyledHeading from 'styles/typography/Heading.styled';
 import Table from 'components/table';
 import Status from 'components/status';
 import { Amount, Currency, Processor, StyledPayments } from './Payments.styled';
-import axios from 'services/axios';
+import axios, { handleError } from 'services/axios';
 import Icon from 'components/icon';
 import PaymentModel from 'models/payment';
-import ErrorModel from 'models/error';
 import SearchBar from 'components/search-bar';
 import Loader from 'components/loader';
 import { formatPrice } from 'utility';
@@ -28,11 +27,7 @@ function Payments() {
         const { data } = await axios.get('/payments');
         setPaymentData(data.data);
       } catch (err) {
-        let errorMessage = 'Something went wrong';
-
-        if (err instanceof ErrorModel) {
-          errorMessage = err.response.error.description;
-        }
+        const errorMessage = handleError(err);
 
         notify({
           type: 'error',
