@@ -1,61 +1,83 @@
+import Button from 'components/button';
 import Dropdown from 'components/dropdown';
 import Icon from 'components/icon';
-import React, { useCallback, useState } from 'react';
+import React, { MutableRefObject, useCallback, useRef, useState } from 'react';
 import debounce from 'services/debounce';
 import { colors } from 'styles/global/Constants';
-import { removeEmptyObjValues } from 'utility';
+import { removeEmptyArrayValues, removeEmptyObjValues } from 'utility';
 import {
-  DropdownTitle,
+  FilterTitle,
   SearchDivider,
+  SearchFooter,
   SearchInner,
   SearchInput,
   SearchSelect,
+  SearchTitle,
   SearchWrapper
 } from './SearchBar.styled';
 
 interface IFilter {
-  currency_code?: string[];
-  order_id?: string;
-  payment_instrument_type?: string[];
-  processor?: string[];
-  status?: string[];
+  currency_code?: string[] | null;
+  order_id?: string | null;
+  payment_instrument_type?: string[] | null;
+  processor?: string[] | null;
+  status?: string[] | null;
 }
 interface IProps {
   onFilter: (parameters: IFilter) => void;
+  showFilter: boolean;
+  toggleFilter: () => void;
 }
 
-const SearchBar: React.FC<IProps> = ({ onFilter }) => {
+const SearchBar: React.FC<IProps> = ({
+  onFilter,
+  showFilter,
+  toggleFilter
+}) => {
   const [currencyCode, setCurrencycode] = useState<string[]>([]);
   const [paymentMethod, setPaymentMethod] = useState<string[]>([]);
   const [processor, setProcessor] = useState<string[]>([]);
   const [status, setStatus] = useState<string[]>([]);
+  const searchRef = useRef() as MutableRefObject<HTMLInputElement>;
 
-  const handleSearch = (e: any) => {
+  const handleSearch = async (value?: any, key?: any, callback?: any) => {
     const filterValues: IFilter = {
-      currency_code: currencyCode,
-      order_id: e.target.value,
-      payment_instrument_type: paymentMethod,
-      processor,
-      status
+      currency_code: removeEmptyArrayValues(currencyCode),
+      order_id: searchRef.current.value,
+      payment_instrument_type: removeEmptyArrayValues(paymentMethod),
+      processor: removeEmptyArrayValues(processor),
+      status: removeEmptyArrayValues(status)
     };
 
-    const result = removeEmptyObjValues(filterValues);
+    const obj: any = { ...filterValues };
 
-    onFilter(result);
+    obj[key] = removeEmptyArrayValues(value);
+
+    const result = removeEmptyObjValues(obj);
+
+    console.log('obj: ', obj);
+    console.log('result: ', result);
+
+    await onFilter(result);
+
+    callback();
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedCallback = useCallback(debounce(handleSearch), []);
 
   return (
-    <SearchWrapper>
+    <SearchWrapper showFilter={showFilter}>
       <SearchInner>
+        <FilterTitle>Filter</FilterTitle>
+
         <SearchInput>
           <span>
             <Icon icon="search" color={colors.black} size="20px" />
           </span>
           <input
             type="text"
+            ref={searchRef}
             placeholder="Search by Your Reference"
             onChange={debouncedCallback}
           />
@@ -64,7 +86,7 @@ const SearchBar: React.FC<IProps> = ({ onFilter }) => {
         <SearchDivider />
 
         <SearchSelect>
-          <DropdownTitle>Processor</DropdownTitle>
+          <SearchTitle>Processor</SearchTitle>
           <Dropdown
             title="All"
             items={[
@@ -89,14 +111,19 @@ const SearchBar: React.FC<IProps> = ({ onFilter }) => {
                 value: 'STRIPE'
               }
             ]}
-            setSelection={(e: any) => setProcessor(e)}
+            setSelection={(e: any) => {
+              debouncedCallback(e, 'processor', () => {
+                console.log('callback: ', e);
+                setProcessor(e);
+              });
+            }}
             selection={processor}
             multiSelect
           />
         </SearchSelect>
 
         <SearchSelect>
-          <DropdownTitle>Payment method</DropdownTitle>
+          <SearchTitle>Payment method</SearchTitle>
           <Dropdown
             title="All"
             items={[
@@ -117,14 +144,18 @@ const SearchBar: React.FC<IProps> = ({ onFilter }) => {
                 value: 'PAYMENT_CARD'
               }
             ]}
-            setSelection={(e: any) => setProcessor(e)}
-            selection={processor}
+            setSelection={(e: any) => {
+              console.log(e);
+              debouncedCallback(e);
+              setPaymentMethod(e);
+            }}
+            selection={paymentMethod}
             multiSelect
           />
         </SearchSelect>
 
         <SearchSelect>
-          <DropdownTitle>Current status</DropdownTitle>
+          <SearchTitle>Current status</SearchTitle>
           <Dropdown
             title="All"
             items={[
@@ -164,7 +195,7 @@ const SearchBar: React.FC<IProps> = ({ onFilter }) => {
         </SearchSelect>
 
         <SearchSelect>
-          <DropdownTitle>Currency</DropdownTitle>
+          <SearchTitle>Currency</SearchTitle>
           <Dropdown
             title="All"
             items={[
@@ -190,6 +221,10 @@ const SearchBar: React.FC<IProps> = ({ onFilter }) => {
             multiSelect
           />
         </SearchSelect>
+
+        <SearchFooter>
+          <Button onClick={toggleFilter}>Done</Button>
+        </SearchFooter>
       </SearchInner>
     </SearchWrapper>
   );

@@ -30,3 +30,11 @@ export const removeEmptyObjValues = (obj: any) => {
 
   return temp;
 };
+
+export const removeEmptyArrayValues = (arr: any) => {
+  if (arr && Array.isArray(arr) && arr.length > 0) {
+    return arr.filter((item) => !!item);
+  }
+
+  return null;
+};

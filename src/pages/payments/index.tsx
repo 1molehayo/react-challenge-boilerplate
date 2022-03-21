@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Layout from 'layouts';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import qs from 'qs';
+import { useNavigate } from 'react-router-dom';
 import { Container } from 'styles/Container.styled';
 import { colors } from 'styles/global/Constants';
 import StyledHeading from 'styles/typography/Heading.styled';
 import Table from 'components/table';
 import Status from 'components/status';
-import { Amount, Currency, Processor, StyledPayments } from './Payments.styled';
+import {
+  Amount,
+  Currency,
+  PaymentBody,
+  PaymentHeader,
+  Processor,
+  StyledPayments
+} from './Payments.styled';
 import axios, { handleError } from 'services/axios';
 import Icon from 'components/icon';
 import PaymentModel from 'models/payment';
@@ -19,12 +27,22 @@ import { notify } from 'utility/toaster';
 function Payments() {
   const [paymentData, setPaymentData] = useState<PaymentModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showFilter, setShowFilter] = useState<boolean>(false);
+
+  const toggleFilter = () => setShowFilter((prevState) => !prevState);
+  const navigate = useNavigate();
 
   const fetchPayments = async (params?: any) => {
+    setLoading(true);
+
     try {
       const { data } = await axios.get('/payments', {
-        params
+        params,
+        paramsSerializer: (params) => {
+          return qs.stringify(params, { arrayFormat: 'brackets' });
+        }
       });
+
       setPaymentData(data.data);
     } catch (err) {
       const errorMessage = handleError(err);
@@ -56,47 +74,59 @@ function Payments() {
 
   return (
     <StyledPayments>
-      {loading && <Loader />}
-
-      {!loading && (
-        <Container>
+      <Container>
+        <PaymentHeader>
           <StyledHeading>Transactions</StyledHeading>
+          <span role="button" onClick={toggleFilter}>
+            Filter <Icon icon="filter" size="16px" color={colors.black} />
+          </span>
+        </PaymentHeader>
 
-          <SearchBar onFilter={(e) => fetchPayments(e)} />
+        <SearchBar
+          onFilter={(e) => fetchPayments(e)}
+          showFilter={showFilter}
+          toggleFilter={toggleFilter}
+        />
 
-          <Table>
-            {paymentData.map((item, itemIndex) => (
-              <tr key={itemIndex}>
-                <td>
-                  <Amount>{formatPrice(item.amount)}</Amount> &nbsp;
-                  <Currency>{item.currencyCode}</Currency>
-                </td>
-                <td>
-                  <Status type={item.status} />
-                </td>
-                <td>
-                  <Processor>
-                    <Icon icon={item.processor.toLowerCase()} />
-                  </Processor>
-                  {item.processor !== 'PAYPAL' && (
+        <PaymentBody>
+          {loading && <Loader />}
+
+          {!loading && (
+            <Table>
+              {paymentData.map((item, itemIndex) => (
+                <tr
+                  key={itemIndex}
+                  onClick={() => navigate(`/payment-details/${item.id}`)}
+                >
+                  <td>
+                    <Amount>{formatPrice(item.amount)}</Amount> &nbsp;
+                    <Currency>{item.currencyCode}</Currency>
+                  </td>
+                  <td>
+                    <Status type={item.status} />
+                  </td>
+                  <td>
                     <Processor>
-                      <Icon icon={getPaymentMethod(item)} />
+                      <Icon icon={item.processor.toLowerCase()} />
                     </Processor>
-                  )}
-                </td>
+                    {item.processor !== 'PAYPAL' && (
+                      <Processor>
+                        <Icon icon={getPaymentMethod(item)} />
+                      </Processor>
+                    )}
+                  </td>
 
-                <td>{item.orderId}</td>
-                <td>{moment(item.date).format('D MMM YYYY, HH:mm')}</td>
-                <td>
-                  <Link to={`/payment-details/${item.id}`}>
+                  <td>{item.orderId}</td>
+                  <td>{moment(item.date).format('D MMM YYYY, HH:mm')}</td>
+                  <td>
                     <Icon icon="angle-right" size="20px" color={colors.blue} />
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </Table>
-        </Container>
-      )}
+                  </td>
+                </tr>
+              ))}
+            </Table>
+          )}
+        </PaymentBody>
+      </Container>
     </StyledPayments>
   );
 }

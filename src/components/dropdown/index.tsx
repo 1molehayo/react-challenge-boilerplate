@@ -32,7 +32,6 @@ const Dropdown: React.FC<IDropdown> = ({
   const dropdownRef = useRef(null);
   const [selected, setSelected] = useState<any>();
   const [selectAll, setSelectAll] = useState(false);
-  // const [searchItems, setSearchItems] = useState(items);
 
   useOnClickOutside(dropdownRef, () => setOpen(false));
 
@@ -41,7 +40,6 @@ const Dropdown: React.FC<IDropdown> = ({
   };
 
   const handleOnChange = (item: any) => {
-    console.log(item);
     if (!multiSelect) {
       setSelection(item.value);
       setSelected(item);
@@ -52,13 +50,8 @@ const Dropdown: React.FC<IDropdown> = ({
     // if its multiselect
     if (!item.value && item.label.toLowerCase('all')) {
       if (!selectAll) {
-        const arr: any = [];
-
-        items.map((obj) => {
-          if (obj.value) {
-            arr.push(obj.value);
-          }
-          return obj;
+        const arr = items.map((obj) => {
+          return obj.value;
         });
 
         setSelection(arr);
@@ -92,19 +85,31 @@ const Dropdown: React.FC<IDropdown> = ({
     return false;
   };
 
+  const formatTitle = () => {
+    if (selection.length) {
+      if (selection.length === 1) {
+        return `${selection.length} item`;
+      }
+
+      return `${selection.length} items`;
+    }
+  };
+
   return (
     <StyledDropdown ref={dropdownRef}>
-      {multiSelect && !isArrayEmpty(selection) && (
-        <SelectedPill>{`${selection.length} selected`}</SelectedPill>
-      )}
-
       <DropdownHeader
         tabIndex={0}
         role="button"
         onKeyPress={toggle}
         onClick={toggle}
       >
-        <p>{isObjectEmpty(selected) ? title : selected.label}</p>
+        {/* <p>{isObjectEmpty(selected) ? title : selected.label}</p> */}
+
+        {multiSelect && !isArrayEmpty(selection) ? (
+          <SelectedPill>{formatTitle()}</SelectedPill>
+        ) : (
+          <p>{isObjectEmpty(selected) ? title : selected.label}</p>
+        )}
 
         <DropdownIcon>
           <Icon

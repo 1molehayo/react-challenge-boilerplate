@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-// import { fontSizes } from 'styles/global/Constants';
 
-const StyledCheckbox = styled.label`
+const StyledCheckbox = styled.span`
   display: inline-block;
   vertical-align: middle;
   white-space: nowrap;

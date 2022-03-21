@@ -36,7 +36,7 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    const errorMessage = handleError(error?.response?.data?.error);
+    const errorMessage = handleError(error);
 
     if (errorMessage.includes('Invalid authentication credentials')) {
       localStorage.removeItem('token');

@@ -9,6 +9,7 @@ import { ReactComponent as ApplePay } from 'assets/apple-pay.svg';
 import { ReactComponent as Braintree } from 'assets/braintree.svg';
 import { ReactComponent as DirectDebit } from 'assets/direct-debit.svg';
 import { ReactComponent as Discovery } from 'assets/discovery.svg';
+import { ReactComponent as Filter } from 'assets/filter.svg';
 import { ReactComponent as Gocardless } from 'assets/gocardless.svg';
 import { ReactComponent as GooglePay } from 'assets/google-pay.svg';
 import { ReactComponent as Jcb } from 'assets/jcb.svg';
@@ -74,6 +75,10 @@ const Icon: React.FC<IconProps> = ({ color, icon, size, style }) => {
 
   if (icon === 'discovery') {
     return <Discovery width={size} height={size} color={color} style={style} />;
+  }
+
+  if (icon === 'filter') {
+    return <Filter width={size} height={size} color={color} style={style} />;
   }
 
   if (icon === 'gocardless') {

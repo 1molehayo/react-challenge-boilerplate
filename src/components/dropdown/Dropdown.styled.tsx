@@ -80,16 +80,13 @@ export const DropdownList = styled.ul`
 `;
 
 export const SelectedPill = styled.div`
-  position: absolute;
-  top: 50%;
-  right: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 30px;
-  padding: 5px;
+  border-radius: 10px;
+  padding: 0 5px;
+  margin-right: 2px;
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white};
-  transform: translateY(-50%);
   font-size: ${fontSizes.xsmall};
 `;

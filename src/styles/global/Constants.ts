@@ -12,6 +12,7 @@ export const breakpoints = {
 };
 
 export const colors = {
+  ash: 'rgba(255, 255, 255, 0.7)',
   black: '#000000',
   blue: '#4858f3',
   dark: '#333333',

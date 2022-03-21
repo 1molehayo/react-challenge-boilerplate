@@ -9,9 +9,9 @@ const StyledLoader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
+  width: 100%;
   height: 100%;
-  min-height: 70vh;
+  min-height: 500px;
 
   ${({ theme }) =>
     theme && {

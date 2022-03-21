@@ -10,7 +10,7 @@ interface ICheckbox {
 const Checkbox: React.FC<ICheckbox> = ({ checked, children, value }) => {
   return (
     <StyledCheckbox>
-      <input type="checkbox" value={value} checked={checked} />
+      <input type="checkbox" value={value} checked={checked} readOnly />
       <span>{children}</span>
     </StyledCheckbox>
   );

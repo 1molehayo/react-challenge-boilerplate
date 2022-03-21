@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { fontSizes } from 'styles/global/Constants';
+import { device } from 'styles/global/Device';
 
 export const TableWrapper = styled.div`
   width: 100%;
+  overflow-x: auto;
 `;
 
 export const StyledTable = styled.table`
@@ -31,12 +33,17 @@ export const StyledTable = styled.table`
       border-bottom: 1px solid ${({ theme }) => theme.colors.light_grey};
       cursor: pointer;
       display: table-cell;
-      padding: 1.5rem 2.4rem;
+      padding: 1.5rem 1.4rem;
       transition: background 0.2s ease-out;
       vertical-align: middle;
       font-size: ${fontSizes.small};
       color: ${({ theme }) => theme.colors.black};
       background-color: ${({ theme }) => theme.colors.white};
+
+      @media ${device.small} {
+        padding-left: 2.4rem;
+        padding-right: 2.4rem;
+      }
 
       &:after {
         display: none;
