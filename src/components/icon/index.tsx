@@ -2,7 +2,9 @@ import React from 'react';
 import { ReactComponent as ThreeDs } from 'assets/3DS.svg';
 import { ReactComponent as Adyen } from 'assets/adyen.svg';
 import { ReactComponent as Amex } from 'assets/amex.svg';
+import { ReactComponent as AngleDown } from 'assets/angle-down.svg';
 import { ReactComponent as AngleRight } from 'assets/angle-right.svg';
+import { ReactComponent as AngleUp } from 'assets/angle-up.svg';
 import { ReactComponent as ApplePay } from 'assets/apple-pay.svg';
 import { ReactComponent as Braintree } from 'assets/braintree.svg';
 import { ReactComponent as DirectDebit } from 'assets/direct-debit.svg';
@@ -42,10 +44,18 @@ const Icon: React.FC<IconProps> = ({ color, icon, size, style }) => {
     return <Amex width={size} height={size} color={color} style={style} />;
   }
 
+  if (icon === 'angle-down') {
+    return <AngleDown width={size} height={size} color={color} style={style} />;
+  }
+
   if (icon === 'angle-right') {
     return (
       <AngleRight width={size} height={size} color={color} style={style} />
     );
+  }
+
+  if (icon === 'angle-up') {
+    return <AngleUp width={size} height={size} color={color} style={style} />;
   }
 
   if (icon === 'apple-pay') {

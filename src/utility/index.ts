@@ -1,8 +1,32 @@
 export const formatPrice = (val: number) => {
-  const options = { 
+  const options = {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2 
+    maximumFractionDigits: 2
   };
-  
+
   return Number(val).toLocaleString('en', options);
-}
+};
+
+export const isArrayEmpty = (arr: any) => !arr || arr.length === 0;
+
+export const isObjectEmpty = (obj: any) => {
+  for (const prop in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+export const removeEmptyObjValues = (obj: any) => {
+  const temp = { ...obj };
+
+  Object.keys(temp).forEach((key) => {
+    if (!temp[key]) {
+      delete temp[key];
+    }
+  });
+
+  return temp;
+};

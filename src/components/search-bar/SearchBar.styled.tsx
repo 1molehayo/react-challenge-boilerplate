@@ -82,6 +82,13 @@ export const SearchSelect = styled.div`
   }
 `;
 
+export const DropdownTitle = styled.p`
+  font-size: ${fontSizes.small};
+  color: ${({ theme }) => theme.colors.black};
+  margin-right: 0.6rem;
+  margin-bottom: 0;
+`;
+
 export const SearchDivider = styled.div`
   width: 1px;
   height: 100%;

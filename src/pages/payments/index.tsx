@@ -18,26 +18,27 @@ import { notify } from 'utility/toaster';
 
 function Payments() {
   const [paymentData, setPaymentData] = useState<PaymentModel[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchPayments = async (params?: any) => {
+    try {
+      const { data } = await axios.get('/payments', {
+        params
+      });
+      setPaymentData(data.data);
+    } catch (err) {
+      const errorMessage = handleError(err);
+
+      notify({
+        type: 'error',
+        message: errorMessage
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPayments = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axios.get('/payments');
-        setPaymentData(data.data);
-      } catch (err) {
-        const errorMessage = handleError(err);
-
-        notify({
-          type: 'error',
-          message: errorMessage
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchPayments();
   }, []);
 
@@ -61,7 +62,7 @@ function Payments() {
         <Container>
           <StyledHeading>Transactions</StyledHeading>
 
-          <SearchBar />
+          <SearchBar onFilter={(e) => fetchPayments(e)} />
 
           <Table>
             {paymentData.map((item, itemIndex) => (
