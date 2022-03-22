@@ -156,8 +156,7 @@ function PaymentDetails() {
                     </span>
                   ) : (
                     <span>
-                      <Icon icon="paypal" />
-                      <OverviewText>Paypal</OverviewText>
+                      <OverviewText>N/A</OverviewText>
                     </span>
                   )}
                 </OverviewItem>
@@ -264,17 +263,29 @@ function PaymentDetails() {
                 <Grid>
                   <Block>
                     <SmallHeading>CVV Response</SmallHeading>
-                    <Status color="#288c70" type="Matched" />
+                    {processor !== 'PAYPAL' ? (
+                      <Status color="#288c70" type="Matched" />
+                    ) : (
+                      <StyledParagraph>N/A</StyledParagraph>
+                    )}
                   </Block>
 
                   <Block>
                     <SmallHeading>Risk score</SmallHeading>
-                    <StyledParagraph>28</StyledParagraph>
+                    {processor !== 'PAYPAL' ? (
+                      <Status color="#288c70" type="Matched" />
+                    ) : (
+                      <StyledParagraph>N/A</StyledParagraph>
+                    )}
                   </Block>
 
                   <Block>
                     <SmallHeading>Risk level</SmallHeading>
-                    <StyledParagraph>Normal</StyledParagraph>
+                    {processor !== 'PAYPAL' ? (
+                      <Status color="#288c70" type="Matched" />
+                    ) : (
+                      <StyledParagraph>N/A</StyledParagraph>
+                    )}
                   </Block>
                 </Grid>
               </CardBody>

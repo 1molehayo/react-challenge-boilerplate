@@ -55,9 +55,6 @@ const SearchBar: React.FC<IProps> = ({
 
     const result = removeEmptyObjValues(obj);
 
-    console.log('obj: ', obj);
-    console.log('result: ', result);
-
     await onFilter(result);
 
     callback();
@@ -80,13 +77,14 @@ const SearchBar: React.FC<IProps> = ({
             ref={searchRef}
             placeholder="Search by Your Reference"
             onChange={debouncedCallback}
+            aria-label="search-input"
           />
         </SearchInput>
 
         <SearchDivider />
 
         <SearchSelect>
-          <SearchTitle>Processor</SearchTitle>
+          <SearchTitle aria-label="search-title">Processor</SearchTitle>
           <Dropdown
             title="All"
             items={[

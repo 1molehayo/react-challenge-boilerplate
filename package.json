@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/dom": "^8.11.3",
     "@types/qs": "^6.9.7",
     "@types/styled-components": "^5.1.24",
     "@types/toastify-js": "^1.11.0",
