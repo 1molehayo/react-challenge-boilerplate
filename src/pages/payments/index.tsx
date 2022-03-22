@@ -21,7 +21,7 @@ import Icon from 'components/icon';
 import PaymentModel from 'models/payment';
 import SearchBar from 'components/search-bar';
 import Loader from 'components/loader';
-import { formatPrice } from 'utility';
+import { formatPrice, getPaymentMethod } from 'utility';
 import { notify } from 'utility/toaster';
 
 function Payments() {
@@ -59,18 +59,6 @@ function Payments() {
   useEffect(() => {
     fetchPayments();
   }, []);
-
-  const getPaymentMethod = (order: any): string => {
-    let network = order.paymentInstrument.paymentInstrumentData.network;
-    network = network.replace(/_/g, '-');
-    network = network.replace(/ /g, '-');
-
-    if (network === 'other') {
-      return 'payment-card';
-    }
-
-    return network.toLowerCase();
-  };
 
   return (
     <StyledPayments>

@@ -23,3 +23,11 @@ export const Container = styled.div`
     max-width: 1400px;
   }
 `;
+
+export const Grid = styled.div`
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 2rem;
+`;

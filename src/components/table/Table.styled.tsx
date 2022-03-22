@@ -33,7 +33,7 @@ export const StyledTable = styled.table`
       border-bottom: 1px solid ${({ theme }) => theme.colors.light_grey};
       cursor: pointer;
       display: table-cell;
-      padding: 1.5rem 1.4rem;
+      padding: 1.5rem 1.3rem;
       transition: background 0.2s ease-out;
       vertical-align: middle;
       font-size: ${fontSizes.small};

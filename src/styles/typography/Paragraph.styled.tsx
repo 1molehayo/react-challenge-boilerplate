@@ -7,6 +7,7 @@ const StyledParagraph = styled.p`
   letter-spacing: 0.2px;
   line-height: 1.6;
   margin-bottom: 1rem;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export default StyledParagraph;

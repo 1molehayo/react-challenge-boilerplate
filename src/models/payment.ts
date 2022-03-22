@@ -22,11 +22,44 @@ interface PaymentModel {
   requiredAction?: string;
   statementDescriptor?: string;
   paymentInstrument: PaymentInstrument;
-  vaultedPaymentInstrument: any;
-  customer: any;
-  lastPaymentError: any;
-  declineReasons: any;
-  metadata: any;
+  vaultedPaymentInstrument?: any;
+  customer?: any;
+  lastPaymentError?: any;
+  declineReasons?: any;
+  metadata?: any;
 }
+
+export const PaymentModelDefaults = {
+  id: '',
+  amount: 0,
+  amountAuthorized: 0,
+  amountCaptured: 0,
+  amountRefunded: 0,
+  currencyCode: '',
+  date: '',
+  orderId: '',
+  paymentInstrument: {
+    token: '',
+    analyticsId: '',
+    tokenType: '',
+    paymentInstrumentType: '',
+    paymentInstrumentData: {
+      last4Digits: '',
+      cardholderName: '',
+      expirationMonth: '',
+      expirationYear: '',
+      network: '',
+      binData: {
+        network: ''
+      }
+    },
+    threeDSecureAuthentication: {
+      responseCode: ''
+    }
+  },
+  processor: '',
+  processorMerchantId: '',
+  status: ''
+};
 
 export default PaymentModel;

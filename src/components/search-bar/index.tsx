@@ -111,12 +111,11 @@ const SearchBar: React.FC<IProps> = ({
                 value: 'STRIPE'
               }
             ]}
-            setSelection={(e: any) => {
+            setSelection={(e: any) =>
               debouncedCallback(e, 'processor', () => {
-                console.log('callback: ', e);
                 setProcessor(e);
-              });
-            }}
+              })
+            }
             selection={processor}
             multiSelect
           />
@@ -144,11 +143,11 @@ const SearchBar: React.FC<IProps> = ({
                 value: 'PAYMENT_CARD'
               }
             ]}
-            setSelection={(e: any) => {
-              console.log(e);
-              debouncedCallback(e);
-              setPaymentMethod(e);
-            }}
+            setSelection={(e: any) =>
+              debouncedCallback(e, 'paymentMethod', () => {
+                setPaymentMethod(e);
+              })
+            }
             selection={paymentMethod}
             multiSelect
           />
@@ -188,7 +187,11 @@ const SearchBar: React.FC<IProps> = ({
                 value: 'SETTLED'
               }
             ]}
-            setSelection={(e: any) => setStatus(e)}
+            setSelection={(e: any) =>
+              debouncedCallback(e, 'status', () => {
+                setStatus(e);
+              })
+            }
             selection={status}
             multiSelect
           />
@@ -216,7 +219,11 @@ const SearchBar: React.FC<IProps> = ({
                 value: 'USD'
               }
             ]}
-            setSelection={(e: any) => setCurrencycode(e)}
+            setSelection={(e: any) =>
+              debouncedCallback(e, 'currencyCode', () => {
+                setCurrencycode(e);
+              })
+            }
             selection={currencyCode}
             multiSelect
           />

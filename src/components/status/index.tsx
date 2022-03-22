@@ -3,9 +3,10 @@ import StyledStatus from './Status.styled';
 
 interface IStatus {
   type: string;
+  color?: string;
 }
 
-const Status: React.FC<IStatus> = ({ type }) => {
+const Status: React.FC<IStatus> = ({ type, color }) => {
   const getColor = (value: string) => {
     switch (value) {
       case 'AUTHORIZED':
@@ -28,7 +29,7 @@ const Status: React.FC<IStatus> = ({ type }) => {
     }
   };
 
-  return <StyledStatus color={getColor(type)}>{type}</StyledStatus>;
+  return <StyledStatus color={color || getColor(type)}>{type}</StyledStatus>;
 };
 
 export default Status;
