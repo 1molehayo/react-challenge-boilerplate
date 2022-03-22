@@ -13,7 +13,6 @@ import {
   PaymentCard,
   PaymentDetailsHeader,
   PaymentOverview,
-  SmallHeading,
   StyledPaymentDetails
 } from './PaymentDetails.styled';
 import Loader from 'components/loader';
@@ -37,6 +36,7 @@ import {
   getCurrencySign,
   getPaymentMethod
 } from 'utility';
+import { SmallHeading } from 'styles/typography/Heading.styled';
 
 function PaymentDetails() {
   const [paymentDetails, setPaymentDetails] =

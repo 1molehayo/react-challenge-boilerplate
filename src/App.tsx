@@ -11,6 +11,7 @@ import Payments from 'pages/payments';
 import PaymentDetails from 'pages/payment-details';
 import RequireAuth from 'RequireAuth';
 import RedirectAuth from 'RedirectAuth';
+import Profile from 'pages/profile';
 
 const theme = {
   colors
@@ -38,6 +39,14 @@ function App() {
                 element={
                   <RequireAuth>
                     <PaymentDetails />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <RequireAuth>
+                    <Profile />
                   </RequireAuth>
                 }
               />

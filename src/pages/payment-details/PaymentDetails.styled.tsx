@@ -25,13 +25,6 @@ export const HeaderLink = styled.div`
   }
 `;
 
-export const SmallHeading = styled.h6`
-  color: ${({ theme }) => theme.colors.grey};
-  font-size: ${fontSizes.xsmall};
-  font-weight: ${fontWeights.regular};
-  margin-bottom: 5px;
-`;
-
 export const AmountRow = styled.div`
   display: flex;
   align-items: flex-end;
@@ -55,13 +48,6 @@ export const AmountColumn = styled.div`
   p {
     color: ${({ theme }) => theme.colors.grey};
   }
-`;
-
-export const CardRow = styled.div`
-  background-color: ${({ theme }) => theme.colors.white};
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
 `;
 
 export const PaymentOverview = styled.div`
